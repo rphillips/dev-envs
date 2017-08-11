@@ -1,0 +1,12 @@
+- name: install compilers and build essentials
+  dnf:  name={{ item }} state=installed
+  with_items:
+    - git 
+    - gcc
+    - gcc-c++ 
+    - make 
+    - gdb
+    - automake
+    - autoconf
+    - libtool
+    - pkgconfig

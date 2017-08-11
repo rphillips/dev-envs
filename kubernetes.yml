@@ -1,0 +1,8 @@
+- hosts: all
+  gather_facts: True
+  roles:
+    - role: base
+    - { role: kubernetes-dnf, when: ansible_pkg_mgr == "dnf" }
+    - { role: kubernetes-apt, when: ansible_pkg_mgr == "apt" }
+    - role: kubernetes
+    - role: home

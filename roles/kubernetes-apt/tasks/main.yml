@@ -1,0 +1,6 @@
+- name: install compilers and build essentials
+  apt:  name={{ item }} state=installed
+  with_items:
+    - build-essential
+    - git-core
+    - vim

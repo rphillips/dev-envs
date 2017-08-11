@@ -1,0 +1,6 @@
+- block:
+    - git:
+        repo: https://github.com/kubernetes/kubernetes
+        dest: /home/rphillips/kubernetes
+  become: yes
+  become_user: rphillips
