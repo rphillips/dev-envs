@@ -10,3 +10,5 @@
     - autoconf
     - libtool
     - pkgconfig
+    - neovim
+    - zsh

@@ -3,4 +3,5 @@
   with_items:
     - build-essential
     - git-core
-    - vim
+    - neovim
+    - zsh

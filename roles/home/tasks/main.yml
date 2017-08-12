@@ -1,0 +1,6 @@
+ - block:
+    - git:
+        repo: https://github.com/hlissner/.vim
+        dest: /home/rphillips/.vim
+   become: yes
+   become_user: rphillips
