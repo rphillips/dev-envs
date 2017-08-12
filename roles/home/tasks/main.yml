@@ -1,6 +1,21 @@
- - block:
+- block:
     - git:
         repo: https://github.com/hlissner/.vim
         dest: /home/rphillips/.vim
-   become: yes
-   become_user: rphillips
+    - git:
+        repo: https://github.com/sorin-ionescu/prezto.git
+        dest: /home/rphillips/.zprezto
+        recursive: yes
+    - shell: |
+        setopt EXTENDED_GLOB
+        for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
+          ln -sf "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
+        done
+      args:
+        executable: /bin/zsh
+  become: yes
+  become_user: rphillips
+
+- user:
+    name: rphillips
+    shell: /bin/zsh
