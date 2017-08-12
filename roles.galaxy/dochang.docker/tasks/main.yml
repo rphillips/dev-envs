@@ -1,0 +1,52 @@
+---
+- name: check whether docker exists
+  shell: command -v docker
+  ignore_errors: True
+  register: docker_installed
+  changed_when: false
+
+- include: installer/default.yml
+  when: docker_installed | failed
+
+- name: install docker-py
+  pip:
+    name: docker-py
+    state: present
+    executable: '{{ docker_pip_executable | default(omit) }}'
+    version: '{{ docker_dockerpy_version | default(omit) }}'
+
+- name: ensure "docker" group present
+  group:
+    name: docker
+    state: present
+    system: yes
+  register: docker_group_created
+
+- name: add users into "docker"
+  user:
+    append: yes
+    groups: docker
+    state: present
+    name: '{{ item }}'
+  with_items: '{{ docker_users or [] }}'
+  when: (not ansible_check_mode) or (not (docker_group_created | changed))
+  # If the group task returns a "changed" result in check mode, it means the
+  # "docker" group does not exist.  Adding users to a non-existing group will
+  # cause the module failed even in check mode.  So we have to skip this task
+  # in such case.
+
+- block:
+
+    - name: enable docker service
+      service:
+        name: docker
+        enabled: yes
+
+    - name: start docker
+      service:
+        name: docker
+        state: started
+
+  when: not (docker_installed | skipped)
+  # In check mode, docker_installed is skipped.  We're unable to check whether
+  # docker is installed.  So skip these tasks.

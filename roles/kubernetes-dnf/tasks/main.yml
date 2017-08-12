@@ -11,4 +11,5 @@
     - libtool
     - pkgconfig
     - neovim
+    - python-pip
     - zsh

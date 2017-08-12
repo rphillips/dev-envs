@@ -4,4 +4,5 @@
     - build-essential
     - git-core
     - neovim
+    - python-pip
     - zsh
