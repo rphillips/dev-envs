@@ -1,5 +1,11 @@
 - user:
     name: rphillips
+    groups: sudo
+  when: ansible_pkg_mgr == 'apt'
+- user:
+    name: rphillips
+    groups: wheel
+  when: ansible_pkg_mgr == 'dnf'
 - authorized_key:
     user: rphillips
     state: present
